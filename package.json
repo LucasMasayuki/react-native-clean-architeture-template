@@ -9,7 +9,8 @@
     "web": "expo start --web",
     "lint": "eslint .",
     "format": "prettier --check .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
   },
   "dependencies": {
     "@types/react": "~18.0.24",
