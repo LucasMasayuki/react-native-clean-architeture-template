@@ -12,10 +12,14 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
+  "ignorePatterns": ["node_modules/*"],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "jsx": true
+    },
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
@@ -33,6 +37,13 @@
     "semi": ["error", "never"]
   },
   "settings": {
+    "import/resolver": {
+      "typescript": {},
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"],
+        "moduleDirectory": ["node_modules", "./"]
+      }
+    },
     "react": {
       "version": "detect"
     }
