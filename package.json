@@ -23,6 +23,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "eslint": "^8.34.0",
@@ -35,16 +37,11 @@
   },
   "private": true,
   "lint-staged": {
-    "src/**/*.{ts,tsx}": [
+    "./**/*.{ts,tsx}": [
       "eslint --ext .tsx --ext .ts . --fix"
     ],
     "./src/**": [
       "prettier --write ."
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }

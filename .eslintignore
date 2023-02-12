@@ -1,2 +1,3 @@
-./babe.config.js
+./babel.config.js
+./commitlint.config.js
 ./node_modules
