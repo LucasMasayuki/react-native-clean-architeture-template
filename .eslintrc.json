@@ -23,7 +23,7 @@
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
+  "plugins": ["prettier", "react", "react-hooks", "@typescript-eslint"],
   "rules": {
     "prettier/prettier": ["error", { "semi": false }],
     "indent": ["error", 2],
