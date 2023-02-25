@@ -1,6 +1,4 @@
 {
-  "extends": ["plugin:prettier/recommended"],
-  "prettier/prettier": ["error", { "proseWrap": "never" }],
   "trailingComma": "all",
   "singleQuote": true,
   "tabWidth": 2,
