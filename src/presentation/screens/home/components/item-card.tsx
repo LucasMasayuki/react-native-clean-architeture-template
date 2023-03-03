@@ -1,12 +1,41 @@
 import React from 'react'
-import { Box, Text, Pressable, HStack, VStack, Spacer } from 'native-base'
+import {
+  Box,
+  Text,
+  Pressable,
+  HStack,
+  VStack,
+  Spacer,
+  Icon,
+  useToast,
+} from 'native-base'
 import { Item } from '@/src/domain/models/item'
+import { FontAwesome } from '@expo/vector-icons'
+import itemStore from '@/src/presentation/stores/item-store'
+import { useHookstate } from '@hookstate/core'
 
 type Props = {
   item: Item
 }
 
 const ItemCard: React.FC<Props> = ({ item }) => {
+  const state = useHookstate(itemStore)
+  const items = state.get()
+  const toast = useToast()
+
+  function onPressDelete() {
+    const index = items.findIndex((it) => item.id === it.id)
+    const clone = [...items]
+
+    clone.splice(index, 1)
+
+    state.set(items)
+
+    toast.show({
+      description: 'Item deleted',
+    })
+  }
+
   return (
     <Box w="100%">
       <Pressable
@@ -28,7 +57,7 @@ const ItemCard: React.FC<Props> = ({ item }) => {
                 }}
                 bold
               >
-                {item.name}
+                {item.id}
               </Text>
               <Text
                 color="coolGray.600"
@@ -40,16 +69,12 @@ const ItemCard: React.FC<Props> = ({ item }) => {
               </Text>
             </VStack>
             <Spacer />
-            <Text
-              fontSize="xs"
-              color="coolGray.800"
-              _dark={{
-                color: 'warmGray.50',
-              }}
-              alignSelf="flex-start"
-            >
-              {item.name}
-            </Text>
+            <Icon
+              as={FontAwesome}
+              name="close"
+              color="red.600"
+              onPress={onPressDelete}
+            />
           </HStack>
         </Box>
       </Pressable>

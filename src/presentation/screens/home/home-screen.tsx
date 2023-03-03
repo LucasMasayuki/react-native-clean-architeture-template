@@ -4,24 +4,27 @@ import { Item } from '@/src/domain/models/item'
 import ItemCard from './components/item-card'
 import EmptyView from '../../components/empty-view'
 import { AntDesign } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { useHomeScreenContext } from '@/src/main/factories/screens/home/home-screen-context'
 import { RootStackParamList } from '@/src/main/routes'
+import itemStore from '../../stores/item-store'
+import { useHookstate } from '@hookstate/core'
 
 const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [items, setItems] = useState<Item[]>([])
   const { getItemsCase } = useHomeScreenContext()
-  const navigation = useNavigation()
+  const state = useHookstate(itemStore)
+
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>()
 
   useEffect(() => {
     const getItems = async () => {
       setIsLoading(true)
 
       try {
-        const response = await getItemsCase?.get('items')
+        const response = await getItemsCase?.get()
 
-        setItems(response?.items ?? [])
+        state.set(response?.items ?? [])
       } catch (error) {
         console.log(error)
       }
@@ -30,11 +33,13 @@ const HomeScreen = () => {
     }
 
     void getItems()
-  }, [getItemsCase])
+  }, [getItemsCase, state])
 
   function onPressGoToAddPage() {
-    // navigation.navigate('AddItem' as keyof RootStackParamList)
+    navigation.navigate('AddItem')
   }
+
+  const items = state.get()
 
   return (
     <VStack>

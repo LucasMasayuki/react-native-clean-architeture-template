@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormControl, IInputProps, Input } from 'native-base'
+import { FormControl, IInputProps, Input, Text } from 'native-base'
 
 type Props = IInputProps & {
   errorMessage?: string
@@ -15,7 +15,9 @@ export const FormInput: React.FC<Props> = ({
   return (
     <FormControl mb={4}>
       <Input isInvalid={invalid} {...rest} />
-      {errorMessage}
+      <Text color="red.600" bold>
+        {errorMessage}
+      </Text>
     </FormControl>
   )
 }

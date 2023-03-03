@@ -5,5 +5,5 @@ export type GetItemsResponse = {
 }
 
 export interface GetItems {
-  get: (key: string) => Promise<GetItemsResponse>
+  get: () => Promise<GetItemsResponse>
 }

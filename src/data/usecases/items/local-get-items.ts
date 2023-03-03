@@ -1,4 +1,4 @@
-import { Item } from '../../../domain/models/item'
+import { Item, localStorageKey } from '../../../domain/models/item'
 import {
   GetItems,
   GetItemsResponse,
@@ -8,8 +8,8 @@ import { GetStorage } from '../../protocols/cache'
 export default class LocalGetItems implements GetItems {
   constructor(private readonly storage: GetStorage<Item[]>) {}
 
-  async get(key: string): Promise<GetItemsResponse> {
-    const items = (await this.storage.get(key)) ?? []
+  async get(): Promise<GetItemsResponse> {
+    const items = (await this.storage.get(localStorageKey)) ?? []
 
     return { items }
   }

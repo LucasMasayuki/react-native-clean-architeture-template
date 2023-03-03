@@ -16,7 +16,11 @@ const Routes = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={MakeHomeScreen} />
-        <Stack.Screen name="AddItem" component={MakeAddItemScreen} />
+        <Stack.Screen
+          name="AddItem"
+          component={MakeAddItemScreen}
+          options={{ title: 'Add new item' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )
