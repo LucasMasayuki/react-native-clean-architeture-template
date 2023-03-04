@@ -2,3 +2,6 @@ node_modules/
 .idea/
 *.iml
 .expo
+yarn-error.log
+cache
+coverage
