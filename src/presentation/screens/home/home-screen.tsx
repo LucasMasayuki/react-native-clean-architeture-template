@@ -33,7 +33,8 @@ const HomeScreen = () => {
     }
 
     void getItems()
-  }, [getItemsCase, state])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getItemsCase])
 
   function onPressGoToAddPage() {
     navigation.navigate('AddItem')

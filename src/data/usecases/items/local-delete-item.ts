@@ -13,7 +13,7 @@ export default class LocalDeleteItem implements DeleteItem {
     }
 
     const selectedItemIndex = items.findIndex((it) => it.name === item.name)
-    items.splice(selectedItemIndex, 0)
+    items.splice(selectedItemIndex, 1)
 
     await this.storage.set(localStorageKey, items)
   }

@@ -29,7 +29,6 @@ const AddItemScreen = () => {
 
   const toast = useToast()
   const state = useHookstate(itemStore)
-  const items = state.get()
 
   const navigation = useNavigation()
   const { addItemCase } = useAddItemScreenContext()
@@ -42,7 +41,7 @@ const AddItemScreen = () => {
       })
 
       if (item != null) {
-        state.set([...items, item])
+        state.set((items) => [...items, item])
 
         toast.show({
           description: `${item.name} is added`,

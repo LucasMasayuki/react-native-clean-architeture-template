@@ -13,6 +13,7 @@ import { Item } from '@/src/domain/models/item'
 import { FontAwesome } from '@expo/vector-icons'
 import itemStore from '@/src/presentation/stores/item-store'
 import { useHookstate } from '@hookstate/core'
+import { useHomeScreenContext } from '@/src/main/factories/screens/home/home-screen-context'
 
 type Props = {
   item: Item
@@ -20,16 +21,18 @@ type Props = {
 
 const ItemCard: React.FC<Props> = ({ item }) => {
   const state = useHookstate(itemStore)
-  const items = state.get()
   const toast = useToast()
+  const { deleteItemCase } = useHomeScreenContext()
 
-  function onPressDelete() {
-    const index = items.findIndex((it) => item.id === it.id)
-    const clone = [...items]
+  async function onPressDelete() {
+    await deleteItemCase?.delete(item)
+    state.set((items) => {
+      const index = items.findIndex((it) => item.id === it.id)
+      const clone = [...items]
 
-    clone.splice(index, 1)
-
-    state.set(items)
+      clone.splice(index, 1)
+      return clone
+    })
 
     toast.show({
       description: 'Item deleted',
