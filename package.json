@@ -70,7 +70,7 @@
       }
     },
     "moduleNameMapper": {
-        "@/(.*)": "<rootDir>/"
+      "@/(.*)": "<rootDir>/"
     }
   },
   "private": true,
