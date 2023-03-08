@@ -73,7 +73,12 @@ const EditItemScreen = () => {
         state.set((items) => [...items, edittedItem])
 
         toast.show({
-          description: `${edittedItem.name} is edited`,
+          render: () => (
+            <Toast
+              text={`${edittedItem.name} is edited`}
+              status={ToastStatus.Success}
+            />
+          ),
         })
 
         navigation.goBack()

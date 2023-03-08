@@ -16,6 +16,7 @@ import { useHookstate } from '@hookstate/core'
 import { useHomeScreenContext } from '@/src/main/factories/screens/home/home-screen-context'
 import { RootStackParamList } from '@/src/main/routes'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
+import Toast, { ToastStatus } from '@/src/presentation/components/toast'
 
 type Props = {
   item: Item
@@ -38,7 +39,7 @@ const ItemCard: React.FC<Props> = ({ item }) => {
     })
 
     toast.show({
-      description: 'Item deleted',
+      render: () => <Toast text="Item deleted" status={ToastStatus.Success} />,
     })
   }
 

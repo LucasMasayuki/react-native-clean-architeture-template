@@ -9,6 +9,7 @@ import { useAddItemScreenContext } from '@/src/main/factories/screens/add-item/a
 import { useNavigation } from '@react-navigation/native'
 import { useHookstate } from '@hookstate/core'
 import itemStore from '../../stores/item-store'
+import Toast, { ToastStatus } from '../../components/toast'
 
 type AddItemProps = {
   name: string
@@ -44,7 +45,12 @@ const AddItemScreen = () => {
         state.set((items) => [...items, item])
 
         toast.show({
-          description: `${item.name} is added`,
+          render: () => (
+            <Toast
+              text={`${item.name} is added`}
+              status={ToastStatus.Success}
+            />
+          ),
         })
 
         navigation.goBack()
