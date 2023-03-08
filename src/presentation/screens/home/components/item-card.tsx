@@ -14,6 +14,8 @@ import { FontAwesome } from '@expo/vector-icons'
 import itemStore from '@/src/presentation/stores/item-store'
 import { useHookstate } from '@hookstate/core'
 import { useHomeScreenContext } from '@/src/main/factories/screens/home/home-screen-context'
+import { RootStackParamList } from '@/src/main/routes'
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 
 type Props = {
   item: Item
@@ -23,6 +25,7 @@ const ItemCard: React.FC<Props> = ({ item }) => {
   const state = useHookstate(itemStore)
   const toast = useToast()
   const { deleteItemCase } = useHomeScreenContext()
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>()
 
   async function onPressDelete() {
     await deleteItemCase?.delete(item)
@@ -39,10 +42,14 @@ const ItemCard: React.FC<Props> = ({ item }) => {
     })
   }
 
+  function onPressGoToEditPage() {
+    navigation.navigate('EditItem')
+  }
+
   return (
     <Box w="100%">
       <Pressable
-        onPress={() => console.log('You touched me')}
+        onPress={onPressGoToEditPage}
         _dark={{
           bg: 'coolGray.800',
         }}

@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { FormInput } from '../../components/form-input'
 import { Button, useToast, VStack } from 'native-base'
-import { useAddItemScreenContext } from '@/src/main/factories/screens/add-item/add-item-screen-context'
-import { useNavigation } from '@react-navigation/native'
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import { useHookstate } from '@hookstate/core'
 import itemStore from '../../stores/item-store'
+import { useEditItemScreenContext } from '@/src/main/factories/screens/edit-item/edit-item-screen-context'
+import Toast, { ToastStatus } from '../../components/toast'
 
-type AddItemProps = {
+type EditItemProps = {
   name: string
 }
 
@@ -23,28 +24,56 @@ const EditItemScreen = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<AddItemProps>({
+    setValue,
+  } = useForm<EditItemProps>({
     resolver: yupResolver(addItemSchema),
   })
+
+  const route = useRoute<RouteProp<{ EditItem: { id: number } }, 'EditItem'>>()
+  const { id } = route.params
 
   const toast = useToast()
   const state = useHookstate(itemStore)
 
   const navigation = useNavigation()
-  const { addItemCase } = useAddItemScreenContext()
+  const { editItemCase, getItemCase } = useEditItemScreenContext()
 
-  async function handleEditItem(data: AddItemProps) {
+  useEffect(() => {
+    const getItem = async () => {
+      try {
+        const response = await getItemCase?.get(id)
+
+        if (response?.item == null) {
+          throw new Error()
+        }
+
+        setValue('name', response?.item.name)
+      } catch (error) {
+        console.log(error)
+        toast.show({
+          render: () => (
+            <Toast text={'Produto não encontrado'} status={ToastStatus.Error} />
+          ),
+        })
+        navigation.goBack()
+      }
+    }
+
+    getItem
+  }, [getItemCase, id, navigation, setValue, toast])
+
+  async function handleEditItem(data: EditItemProps) {
     try {
-      const item = await addItemCase?.add({
-        id: Math.random().betweeen(1, Math.max()),
+      const edittedItem = await editItemCase?.edit({
+        id,
         ...data,
       })
 
-      if (item != null) {
-        state.set((items) => [...items, item])
+      if (edittedItem != null) {
+        state.set((items) => [...items, edittedItem])
 
         toast.show({
-          description: `${item.name} is edited`,
+          description: `${edittedItem.name} is edited`,
         })
 
         navigation.goBack()
