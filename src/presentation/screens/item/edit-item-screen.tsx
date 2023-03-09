@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -10,6 +10,7 @@ import { useHookstate } from '@hookstate/core'
 import itemStore from '../../stores/item-store'
 import { useEditItemScreenContext } from '@/src/main/factories/screens/edit-item/edit-item-screen-context'
 import Toast, { ToastStatus } from '../../components/toast'
+import PageLoading from '../../components/page-loading'
 
 type EditItemProps = {
   name: string
@@ -32,6 +33,7 @@ const EditItemScreen = () => {
   const route = useRoute<RouteProp<{ EditItem: { id: number } }, 'EditItem'>>()
   const { id } = route.params
 
+  const [isLoading, setIsLoading] = useState(true)
   const toast = useToast()
   const state = useHookstate(itemStore)
 
@@ -48,6 +50,7 @@ const EditItemScreen = () => {
         }
 
         setValue('name', response?.item.name)
+        setIsLoading(false)
       } catch (error) {
         console.log(error)
         toast.show({
@@ -59,7 +62,7 @@ const EditItemScreen = () => {
       }
     }
 
-    getItem
+    void getItem()
   }, [getItemCase, id, navigation, setValue, toast])
 
   async function handleEditItem(data: EditItemProps) {
@@ -70,7 +73,14 @@ const EditItemScreen = () => {
       })
 
       if (edittedItem != null) {
-        state.set((items) => [...items, edittedItem])
+        state.set((items) => {
+          const clone = [...items]
+          const index = clone.findIndex((it) => it.id === edittedItem.id)
+
+          clone[index] = edittedItem
+
+          return clone
+        })
 
         toast.show({
           render: () => (
@@ -88,16 +98,19 @@ const EditItemScreen = () => {
     }
   }
 
-  return (
+  return isLoading ? (
+    <PageLoading />
+  ) : (
     <VStack p="16">
       <Controller
         control={control}
         name="name"
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, value } }) => (
           <FormInput
             errorMessage={errors.name?.message}
             placeholder="Name"
             onChangeText={onChange}
+            value={value}
           />
         )}
       />

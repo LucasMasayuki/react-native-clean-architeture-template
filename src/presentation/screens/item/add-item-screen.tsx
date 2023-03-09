@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useHookstate } from '@hookstate/core'
 import itemStore from '../../stores/item-store'
 import Toast, { ToastStatus } from '../../components/toast'
+import '@/src/main/extensions/number'
 
 type AddItemProps = {
   name: string
@@ -37,7 +38,7 @@ const AddItemScreen = () => {
   async function handleAddItem(data: AddItemProps) {
     try {
       const item = await addItemCase?.add({
-        id: Math.random().betweeen(1, Math.max()),
+        id: Math.random().betweeen(1, 100000000000),
         ...data,
       })
 

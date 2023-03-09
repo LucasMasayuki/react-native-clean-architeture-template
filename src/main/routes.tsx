@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator()
 export type RootStackParamList = {
   Home: undefined
   AddItem: undefined
-  EditItem: undefined
+  EditItem: { id: number }
 }
 
 const Routes = () => {

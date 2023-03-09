@@ -44,7 +44,7 @@ const ItemCard: React.FC<Props> = ({ item }) => {
   }
 
   function onPressGoToEditPage() {
-    navigation.navigate('EditItem')
+    navigation.navigate('EditItem', { id: item.id })
   }
 
   return (

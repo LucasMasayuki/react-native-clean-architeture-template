@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useEffect, useState } from 'react'
 import { Fab, Icon, ScrollView, Skeleton, VStack } from 'native-base'
-import { Item } from '@/src/domain/models/item'
 import ItemCard from './components/item-card'
 import EmptyView from '../../components/empty-view'
 import { AntDesign } from '@expo/vector-icons'
